@@ -5,7 +5,9 @@ var env = require('../../config');
 var twilio = require('twilio');
 var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 
-var Db = require('../Db');
+// Get the LevelDB interface
+//
+var db = require('../Db');
 
 module.exports = function(server) {
 		

@@ -17,17 +17,18 @@ server.get('/', function(req, res) {
 	res.send(200, 'ok');
 });
 
-// Configure the sms webhook routing
-//
-require('./sms')(server);
-
 // process.env.PORT is set by heroku (add it yourself if hosting elsewhere)
 //
 server.listen(env.PORT, function() {});
 
+// Configure the sms webhook routing
+//
+require('./sms')(server, wss);
+
 // Configure the socket listener for client connections
 //
 var wss = new SServer(server);
+var clientSocket;
 
 wss.on("connection", function(ws) {
 	
