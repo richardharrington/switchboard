@@ -53,6 +53,8 @@ wss.on("connection", function(ws) {
 		console.log("websocket connection closed.");
 	});
 	
+	console.log(dbStream);
+	
 	dbStream.on('data', function(data) {
 		console.log("STREAMDATA:", data);
 	});
