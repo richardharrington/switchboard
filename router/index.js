@@ -17,8 +17,6 @@ server.use(restify.bodyParser());
 //
 require('./sms')(server);
 
-console.log("*************************", process.env);
-
 // process.env.PORT is set by heroku (add it yourself if hosting elsewhere)
 //
 server.listen(env.PORT, function() {
