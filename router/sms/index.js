@@ -9,7 +9,6 @@ var Db = require('../Db');
 
 module.exports = function(server) {
 	
-console.log("************", process.env, env);	
 	
 	var smsUrl = path.join(env.URL, 'smswebhook');
 

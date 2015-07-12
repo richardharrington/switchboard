@@ -9,6 +9,5 @@ module.exports = {
 	TWILIO_PHONE_NUMBER_SID: env.TWILIO_PHONE_NUMBER_SID,
 	PORT: env.PORT,
 	SOCK_PORT: env.SOCK_PORT,
-	PROTOCOL: env.PROTOCOL,
-	URI: env.URI
+	URL: env.URL
 };
