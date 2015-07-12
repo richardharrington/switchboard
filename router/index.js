@@ -8,7 +8,7 @@ var npmpack = require('../package.json');
 // Get the LevelDB interface, and its readable stream
 //
 var db = require('./Db');
-var dbStream = db.getReadStream();
+var dbStream = db.connection.createReadStream();
 
 var sendSMSResponse = require('./sms/sendResponse.js');
 
@@ -55,6 +55,9 @@ wss.on("connection", function(ws) {
 	
 	dbStream.on('data', function(data) {
 		console.log("STREAMDATA:", data);
+	});
+	dbStream.on('error', function(err) {
+		console.log("STREAMERROR:", err);
 	});
 });
 
