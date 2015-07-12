@@ -22,20 +22,20 @@ module.exports = function(server) {
 	
 	server.post('/smswebhook', function(req, res) {
 	
-	console.log('DAT BODY', req.params);
+		var dat = req.params;
 
 		var meta = {
-			fromState: req.body.FromState,
-			fromCountry: req.body.FromCountry,
-			sid: req.body.MessageSid
+			fromState	: dat.FromState,
+			fromCountry	: dat.FromCountry,
+			sid			: dat.MessageSid
 		}
 		
-		db.addToNumberHistory(req.body.From, meta)
+		db.addToNumberHistory(dat.From, meta)
 		.then(function(resp) {
-			console.log('Received message from', req.body.From);
+			console.log('Received message from', dat.From);
 			
-			db.getConnection().get(req.body.From, function() {
-				console.log("**", arguments);
+			db.getConnection().get(dat.From, function() {
+				console.log("** gotten **", arguments);
 			})
 		})
 		.catch(function(err) {
