@@ -2,7 +2,10 @@
 
 var Promise = require('bluebird');
 var level = require('level');
-var db = level('./messages.db');
+
+var db = level('./messages.db', {
+	valueEncoding : 'json'
+});
 
 var readStream;
 
@@ -13,18 +16,14 @@ module.exports = {
 	console.log("ADDING TO HISTORY:", arguments);
 		
 		return new Promise(function(resolve, reject) {
-			db.get(number, {
-				valueEncoding : 'json'
-			}, function(err, val) {
+			db.get(number, function(err, val) {
 				if(err) {
 					console.log("err***", err);
 					if(!err.notFound) {
 						return reject(new Error('Unable to add message from ' + number + ' to message history'));
 					}
 					
-					return db.put(number, [meta], {
-						valueEncoding : 'json'
-					}, function(err, resp) {
+					return db.put(number, [meta], function(err, resp) {
 						if(err) {
 							return reject(err);
 						}
@@ -34,9 +33,7 @@ module.exports = {
 				
 				val.push(meta);
 				
-				db.put(number, val, {
-					valueEncoding : 'json'
-				}, function(err, resp) {
+				db.put(number, val, function(err, resp) {
 					if(err) {
 						return reject(err);
 					}

@@ -35,9 +35,7 @@ module.exports = function(server) {
 		.then(function(resp) {
 			console.log('Received message from', dat.From);
 			
-			db.connection.get(dat.From, {
-				valueEncoding : 'json'
-			}, function(err, val) {
+			db.connection.get(dat.From, function(err, val) {
 				if(err) {
 					throw new Error(err);
 				}
