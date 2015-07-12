@@ -5,6 +5,11 @@ var SServer = require("ws").Server;
 var env = require('../config');
 var npmpack = require('../package.json');
 
+// Get the LevelDB interface, and its readable stream
+//
+var db = require('./Db');
+var dbStream = db.getReadStream();
+
 var sendSMSResponse = require('./sms/sendResponse.js');
 
 var server = restify.createServer({
@@ -25,7 +30,7 @@ server.listen(env.PORT, function() {});
 
 // Configure the sms webhook routing
 //
-require('./sms')(server, wss);
+require('./sms')(server, db);
 
 // Configure the socket listener for client connections
 //
@@ -46,6 +51,10 @@ wss.on("connection", function(ws) {
 	
 	ws.on("close", function() {
 		console.log("websocket connection closed.");
+	});
+	
+	dbStream.on('data', function(data) {
+		console.log("STREAMDATA:", data);
 	});
 });
 

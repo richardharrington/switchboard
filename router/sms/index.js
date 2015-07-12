@@ -5,11 +5,7 @@ var env = require('../../config');
 var twilio = require('twilio');
 var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 
-// Get the LevelDB interface
-//
-var db = require('../Db');
-
-module.exports = function(server, clientSocket) {
+module.exports = function(server, db) {
 		
 	var smsUrl = env.URL + '/smswebhook';
 
@@ -34,8 +30,6 @@ module.exports = function(server, clientSocket) {
 		db.addToNumberHistory(dat.From, meta)
 		.then(function(newVal) {
 			console.log('Received message from', dat.From);
-			
-			clientSocket.send(JSON.stringify(newVal));
 		})
 		.catch(function(err) {
 			console.log("levelERRR:", err);
