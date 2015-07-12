@@ -27,29 +27,20 @@ server.listen(env.PORT, function() {});
 
 // Configure the socket listener for client connections
 //
-var net = require('net');
- 
-var server = net.createServer(function(socket) {
-	socket.write('Echo server\r\n');
-	socket.pipe(socket);
-});
- 
-/*
-server.listen(env.SOCK_PORT, function() {
-	var client = new net.Socket();
-	client.connect(env.PORT, env.URL, function() {
-		console.log('Connected');
-		client.write('Hello, server! Love, Client.');
-	});
-	 
-	client.on('data', function(data) {
-		console.log('Received: ' + data);
-		client.destroy(); // kill client after server's response
-	});
-	 
-	client.on('close', function() {
-		console.log('Connection closed');
-	});
-});
-*/
+var WebSocketServer = require("ws").Server;
+
+var wss = new WebSocketServer(server);
+
+wss.on("connection", function(ws) {
+  var id = setInterval(function() {
+    ws.send(JSON.stringify(new Date()), function() {  })
+  }, 1000)
+
+  console.log("websocket connection open")
+
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
+})
 
