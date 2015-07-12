@@ -12,7 +12,7 @@ module.exports = function(cb) {
 			throw new Error(err);
 		}
 	
-		cb({
+		cb(db, {
 		
 			addToNumberHistory : function(number, meta) {
 			
@@ -46,16 +46,7 @@ module.exports = function(cb) {
 						});
 					});
 				});
-			},
-			
-			getReadStream : function() {
-				if(!readStream) {
-					readStream = db.createReadStream();
-				}
-				return readStream;
-			},
-			
-			connection : db
+			}
 		});
 	});
 };

@@ -25,13 +25,13 @@ server.listen(env.PORT, function() {});
 
 // Get the LevelDB interface, and its readable stream
 //
-require('./Db')(function(dbApi) {
+require('./Db')(function(db, dbApi) {
 
 	// Configure the sms webhook routing
 	//
 	require('./sms')(server, dbApi);
 	
-	var dbStream = require('level-live-stream')(dbApi.connection);
+	var dbStream = require('level-live-stream')(db);
 	
 	// Configure the socket listener for client connections
 	//
@@ -40,28 +40,35 @@ require('./Db')(function(dbApi) {
 	
 	wss.on("connection", function(ws) {
 		
-		ws.send('How can I help you?');
-	
 		console.log("websocket connection opened.")
-		
-		sendSMSResponse('+19177674492', 'Hi Sandro')
-		.then(function(resp) {
-			console.log('SENT MESSAGE:', resp);
-		})
-		.catch(console.log.bind(console));
 		
 		ws.on("close", function() {
 			console.log("websocket connection closed.");
 		});
 		
-		console.log(dbStream);
-		
+		ws.on("message", function(msg) {
+			console.log("Got message from client server: ", msg);
+		});
+
+
+		// We need to be notified when a new message has been
+		// added.
+		//
 		dbStream.on('data', function(data) {
 			console.log("STREAMDATA:", data);
 		});
 		dbStream.on('error', function(err) {
 			console.log("STREAMERROR:", err);
 		});
+		
+		
+		ws.send('How can I help you?');
+		
+		sendSMSResponse('+19177674492', 'Hi Sandro')
+		.then(function(resp) {
+			console.log('SENT MESSAGE:', resp);
+		})
+		.catch(console.log.bind(console));
 	});
 });
 
