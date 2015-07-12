@@ -17,7 +17,9 @@ server.use(restify.bodyParser());
 //
 require('./sms')(server);
 
-server.listen(env.HTTP_PORT, env.URI, function() {
+// process.env.PORT is set by heroku (add it yourself if hosting elsewhere)
+//
+server.listen(env.PORT, env.URL, function() {
 	console.log('%s listening at %s', server.name, server.url);
 });
 
@@ -30,4 +32,4 @@ var server = net.createServer(function(socket) {
 	socket.pipe(socket);
 });
  
-server.listen(env.SOCK_PORT, env.URI);
+server.listen(env.SOCK_PORT, env.URL);

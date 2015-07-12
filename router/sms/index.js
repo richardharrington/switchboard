@@ -9,7 +9,7 @@ var Db = require('../Db');
 
 module.exports = function(server) {
 	
-	var smsUrl = env.PROTOCOL + '://' + env.URI + ':' + env.HTTP_PORT + '/smswebhook';
+	var smsUrl = env.URL + ':' + env.HTTP_PORT + '/smswebhook';
 
 	// Set up the webhook. If it doesn't succeed the bound
 	// route will never be called.

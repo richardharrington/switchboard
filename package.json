@@ -13,9 +13,7 @@
   "author": "spasquali@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "hiredis": "^0.4.0",
     "level": "^1.2.0",
-    "redis": "^0.12.1",
     "restify": "^3.0.3",
     "twilio": "^2.2.1"
   }
