@@ -17,6 +17,7 @@ module.exports = {
 				valueEncoding : 'json'
 			}, function(err, val) {
 				if(err) {
+					console.log("err***", err);
 					if(!err.notFound) {
 						return reject(new Error('Unable to add message from ' + number + ' to message history'));
 					}
