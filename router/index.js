@@ -30,15 +30,13 @@ server.listen(env.PORT, function() {});
 var wss = new SServer(server);
 
 wss.on("connection", function(ws) {
-	var id = setInterval(function() {
-		ws.send(JSON.stringify(new Date()), function() {  })
-	}, 1000)
 	
+	ws.send('You have successfully connected to the switchboard. How can I help you?')
+
 	console.log("websocket connection open")
 	
 	ws.on("close", function() {
-		console.log("websocket connection close")
-		clearInterval(id)
-	})
-})
+		console.log("websocket connection close");
+	});
+});
 
