@@ -21,7 +21,7 @@ console.log("*************************", process.env);
 
 // process.env.PORT is set by heroku (add it yourself if hosting elsewhere)
 //
-server.listen(env.PORT, env.URL, function() {
+server.listen(env.PORT, function() {
 	console.log('%s listening at %s', server.name, server.url);
 });
 
