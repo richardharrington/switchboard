@@ -8,7 +8,7 @@ module.exports = function(number, message) {
 
 	twilioAPI.sendMessage({
 		to: number, 
-		from: env.env.TWILIO_DEFAULT_FROM,
+		from: env.TWILIO_DEFAULT_FROM,
 		body: message 
 	}, function(err, responseData) {
 		if(err) { 
