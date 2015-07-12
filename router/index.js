@@ -27,7 +27,6 @@ server.listen(env.PORT, function() {
 	console.log('%s listening at %s', server.name, server.url);
 });
 
-/*
 // Configure the socket listener for client connections
 //
 var net = require('net');
@@ -37,5 +36,4 @@ var server = net.createServer(function(socket) {
 	socket.pipe(socket);
 });
  
-server.listen(env.SOCK_PORT, env.URL);
-*/
+server.listen(env.SOCK_PORT);
