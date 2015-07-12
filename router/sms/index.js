@@ -28,9 +28,18 @@ module.exports = function(server) {
 			sid: req.body.MessageSid
 		}
 		
-		db.addToNumberHistory(req.body.From, meta);
-		
-		res.end();
+		db.addToNumberHistory(req.body.From, meta)
+		.then(function(resp) {
+			console.log('Received message from', req.body.From);
+			
+			db.getConnection().get(req.body.From, function() {
+				console.log("**", arguments);
+			})
+		})
+		.catch(function(err) {
+			console.log(err);
+		});
+		.finally(res.end);
 	});
 };
 
