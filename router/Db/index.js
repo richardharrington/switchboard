@@ -1,7 +1,7 @@
 "use strict";
 
 var level = require('level');
-var messagesDb = level('./data/messages.db');
+var messagesDb = level('./messages.db');
 
 module.exports = {
 
