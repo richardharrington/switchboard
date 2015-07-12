@@ -13,8 +13,7 @@ var server = restify.createServer({
 });
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
-server.use(restify.jsonp());
-server.use(restify.bodyParser({ mapParams: true }));
+server.use(restify.bodyParser());
 
 server.get('/', function(req, res) {
 	res.send(200, 'ok');

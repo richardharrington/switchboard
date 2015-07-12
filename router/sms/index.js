@@ -22,7 +22,7 @@ module.exports = function(server) {
 	
 	server.post('/smswebhook', function(req, res) {
 	
-	console.log('DAT BODY', req.body);
+	console.log('DAT BODY', req.params);
 
 		var meta = {
 			fromState: req.body.FromState,
