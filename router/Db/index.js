@@ -7,8 +7,17 @@ var readStream;
 
 module.exports = {
 
-	addMessage : function(msg) {
-	
+	addToNumberHistory : function(number, meta) {
+		db.get(number, function(err, val) {
+			if(err) {
+				if(!err.notFound) {
+					return;
+				}
+				
+				return db.put(number, [meta]);
+			}
+			
+		});
 	},
 	
 	getReadStream : function() {

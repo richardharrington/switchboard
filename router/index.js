@@ -5,6 +5,8 @@ var SServer = require("ws").Server;
 var env = require('../config');
 var npmpack = require('../package.json');
 
+var sendSMSResponse = require('./sms/sendResponse.js');
+
 var server = restify.createServer({
 	name: npmpack.name,
 	version: npmpack.version
@@ -34,10 +36,12 @@ wss.on("connection", function(ws) {
 	
 	ws.send('How can I help you?');
 
-	console.log("websocket connection open")
+	console.log("websocket connection opened.")
+	
+	sendSMSResponse('+19177674492', 'Hi Sandro');
 	
 	ws.on("close", function() {
-		console.log("websocket connection close");
+		console.log("websocket connection closed.");
 	});
 });
 

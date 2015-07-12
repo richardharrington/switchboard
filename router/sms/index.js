@@ -22,15 +22,15 @@ module.exports = function(server) {
 	
 	server.post('/smswebhook', function(req, res) {
 
-		var twiml = new twilio.TwimlResponse();
-
-		twiml.message("HIYO from TWILLIO");
+		var meta = {
+			fromState: req.body.FromState,
+			fromCountry: req.body.FromCountry,
+			sid: req.body.MessageSid
+		}
 		
-		res.writeHead(200, { 
-			'Content-Type':'text/xml' 
-		});
+		db.addToNumberHistory(req.body.From, meta);
 		
-		res.end(twiml.toString());
+		res.end();
 	});
 };
 
@@ -45,7 +45,8 @@ ToCountry=US
 &ToCity=SOUTH+RICHMOND+HILL
 &FromZip=11575
 &SmsSid=SM3b3c68b39785c9c19e2cddf1332bba1e
-&FromState=NY&SmsStatus=received
+&FromState=NY
+&SmsStatus=received
 &FromCity=SOUTH+RICHMOND+HILL
 &Body=Hi
 &FromCountry=US
