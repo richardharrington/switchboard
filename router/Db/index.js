@@ -31,12 +31,10 @@ module.exports = {
 						resolve(resp);
 					});
 				} 
-	console.log("val *****", val);
+				
 				val.push(meta);
 				
-				console.log(val);
-				
-				db.put(number, meta, {
+				db.put(number, val, {
 					valueEncoding : 'json'
 				}, function(err, resp) {
 					if(err) {
