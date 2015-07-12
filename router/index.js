@@ -23,9 +23,7 @@ require('./sms')(server);
 
 // process.env.PORT is set by heroku (add it yourself if hosting elsewhere)
 //
-server.listen(env.PORT, function() {
-	console.log('%s listening at %s', server.name, server.url);
-});
+server.listen(env.PORT, function() {});
 
 // Configure the socket listener for client connections
 //
@@ -36,4 +34,20 @@ var server = net.createServer(function(socket) {
 	socket.pipe(socket);
 });
  
-server.listen(env.SOCK_PORT);
+server.listen(env.SOCK_PORT, function() {
+	var client = new net.Socket();
+	client.connect(env.PORT, env.URL, function() {
+		console.log('Connected');
+		client.write('Hello, server! Love, Client.');
+	});
+	 
+	client.on('data', function(data) {
+		console.log('Received: ' + data);
+		client.destroy(); // kill client after server's response
+	});
+	 
+	client.on('close', function() {
+		console.log('Connection closed');
+	});
+});
+
