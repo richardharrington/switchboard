@@ -31,7 +31,7 @@ module.exports = {
 						resolve(resp);
 					});
 				} 
-				
+	console.log("val *****", val);
 				val.push(meta);
 				
 				console.log(val);
