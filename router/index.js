@@ -34,6 +34,7 @@ var server = net.createServer(function(socket) {
 	socket.pipe(socket);
 });
  
+/*
 server.listen(env.SOCK_PORT, function() {
 	var client = new net.Socket();
 	client.connect(env.PORT, env.URL, function() {
@@ -50,4 +51,5 @@ server.listen(env.SOCK_PORT, function() {
 		console.log('Connection closed');
 	});
 });
+*/
 
