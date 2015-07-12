@@ -8,12 +8,10 @@ var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 var Db = require('../Db');
 
 module.exports = function(server) {
-	
-	
+		
 	var smsUrl = path.join(env.URL, 'smswebhook');
-
-
-
+	
+	console.log("***", smsUrl);
 
 	// Set up the webhook. If it doesn't succeed the bound
 	// route will never be called.
