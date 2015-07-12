@@ -13,6 +13,10 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
+server.get('/', function(req, res) {
+	res.send(200, 'ok');
+});
+
 // Configure the sms webhook routing
 //
 require('./sms')(server);
