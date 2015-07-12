@@ -9,7 +9,7 @@ var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 //
 var db = require('../Db');
 
-module.exports = function(server) {
+module.exports = function(server, clientSocket) {
 		
 	var smsUrl = env.URL + '/smswebhook';
 
@@ -32,16 +32,10 @@ module.exports = function(server) {
 		}
 		
 		db.addToNumberHistory(dat.From, meta)
-		.then(function(resp) {
+		.then(function(newVal) {
 			console.log('Received message from', dat.From);
 			
-			db.connection.get(dat.From, function(err, val) {
-				if(err) {
-					throw new Error(err);
-				}
-				console.log("typ:", typeof val);
-				console.log('Got value:', val);
-			})
+			clientSocket.send(JSON.stringify(newVal));
 		})
 		.catch(function(err) {
 			console.log("levelERRR:", err);

@@ -23,11 +23,13 @@ module.exports = {
 						return reject(new Error('Unable to add message from ' + number + ' to message history'));
 					}
 					
-					return db.put(number, [meta], function(err, resp) {
+					var val = [meta];
+					
+					return db.put(number, val, function(err, resp) {
 						if(err) {
 							return reject(err);
 						}
-						resolve(resp);
+						resolve(val);
 					});
 				} 
 				
@@ -37,7 +39,7 @@ module.exports = {
 					if(err) {
 						return reject(err);
 					}
-					resolve(resp);
+					resolve(val);
 				});
 			});
 		});
