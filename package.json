@@ -1,0 +1,22 @@
+{
+  "name": "switchboard",
+  "version": "1.0.0",
+  "description": "Master dispatcher for custserv system",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "0.12.x"
+  },
+  "author": "spasquali@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "hiredis": "^0.4.0",
+    "level": "^1.2.0",
+    "redis": "^0.12.1",
+    "restify": "^3.0.3",
+    "twilio": "^2.2.1"
+  }
+}
