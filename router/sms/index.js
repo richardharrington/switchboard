@@ -10,8 +10,6 @@ var Db = require('../Db');
 module.exports = function(server) {
 		
 	var smsUrl = env.URL + '/smswebhook';
-	
-	console.log("***", smsUrl);
 
 	// Set up the webhook. If it doesn't succeed the bound
 	// route will never be called.
@@ -35,20 +33,6 @@ module.exports = function(server) {
 };
 
 /*
-
-
-// 2) put a key & value
-db.put('name', 'LevelUP', function (err) {
-  if (err) return console.log('Ooops!', err) // some kind of I/O error
-
-  // 3) fetch by key
-  db.get('name', function (err, value) {
-    if (err) return console.log('Ooops!', err) // likely the key was not found
-
-    // ta da!
-    console.log('name=' + value)
-  })
-})
 
 twilio post body sent to hook
 
