@@ -22,7 +22,13 @@ module.exports = {
 						}
 						resolve(resp);
 					});
-				}
+				} 
+				db.get(number, function(err, val) {
+					if(err) {
+						throw new Error(err);
+					}
+					resolve(val);
+				});
 			});
 		});
 	},

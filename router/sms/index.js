@@ -37,7 +37,7 @@ module.exports = function(server) {
 			})
 		})
 		.catch(function(err) {
-			console.log(err);
+			console.log("levelERRR:", err);
 		})
 		.finally(res.end);
 	});

@@ -14,9 +14,6 @@ module.exports = function(number, message) {
 		if(err) { 
 			return;
 		}
-	
-		console.log(responseData); 
-		console.log(responseData); 
 	});
 };
 
