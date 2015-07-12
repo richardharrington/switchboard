@@ -32,7 +32,7 @@ var clientSocket;
 
 wss.on("connection", function(ws) {
 	
-	ws.send('You have successfully connected to the switchboard. How can I help you?')
+	ws.send('How can I help you?');
 
 	console.log("websocket connection open")
 	
