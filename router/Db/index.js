@@ -19,14 +19,18 @@ module.exports = {
 						return reject(new Error('Unable to add message from ' + number + ' to message history'));
 					}
 					
-					return db.put(number, [meta], function(err, resp) {
+					return db.put(number, [meta], {
+						valueEncoding : 'json'
+					}, function(err, resp) {
 						if(err) {
 							return reject(err);
 						}
 						resolve(resp);
 					});
 				} 
-				db.get(number, function(err, val) {
+				db.get(number, {
+					valueEncoding : 'json'
+				}, function(err, val) {
 					if(err) {
 						return reject(err);
 					}
@@ -43,7 +47,5 @@ module.exports = {
 		return readStream;
 	},
 	
-	getConnection : function() {
-		return db;
-	}
+	connection : db
 };
