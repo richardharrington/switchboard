@@ -9,23 +9,26 @@ var readStream;
 module.exports = {
 
 	addToNumberHistory : function(number, meta) {
+	
+	console.log("ADDING TO HISTORY:", arguments);
+	
 		return new Promise(function(resolve, reject) {
 			db.get(number, function(err, val) {
 				if(err) {
 					if(!err.notFound) {
-						throw new Error('Unable to add message from ' + number + ' to message history');
+						return reject(new Error('Unable to add message from ' + number + ' to message history'));
 					}
 					
 					return db.put(number, [meta], function(err, resp) {
 						if(err) {
-							throw new Error(err);
+							return reject(err);
 						}
 						resolve(resp);
 					});
 				} 
 				db.get(number, function(err, val) {
 					if(err) {
-						throw new Error(err);
+						return reject(err);
 					}
 					resolve(val);
 				});

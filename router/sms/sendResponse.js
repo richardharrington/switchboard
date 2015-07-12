@@ -1,19 +1,23 @@
 "use strict";
 
+var Promise = require('bluebird');
 var env = require('../../config');
 var twilio = require('twilio');
 var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 
 module.exports = function(number, message) {
 
-	twilioAPI.sendMessage({
-		to: number, 
-		from: env.TWILIO_DEFAULT_FROM,
-		body: message 
-	}, function(err, responseData) {
-		if(err) { 
-			return;
-		}
+	return new Promise(function(resolve, reject) {
+		twilioAPI.sendMessage({
+			to: number, 
+			from: env.TWILIO_DEFAULT_FROM,
+			body: message 
+		}, function(err, responseData) {
+			if(err) { 
+				return reject(err);
+			}
+			resolve(responseData);
+		});
 	});
 };
 

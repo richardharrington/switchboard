@@ -38,7 +38,11 @@ wss.on("connection", function(ws) {
 
 	console.log("websocket connection opened.")
 	
-	sendSMSResponse('+19177674492', 'Hi Sandro');
+	sendSMSResponse('+19177674492', 'Hi Sandro')
+	.then(function(resp) {
+		console.log('SENT MESSAGE:', resp);
+	})
+	.catch(console.log.bind(console));
 	
 	ws.on("close", function() {
 		console.log("websocket connection closed.");
