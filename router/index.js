@@ -31,7 +31,7 @@ require('./Db')(function(dbApi) {
 	//
 	require('./sms')(server, dbApi);
 	
-	var dbStream = dbApi.connection.createReadStream();
+	var dbStream = require('level-live-stream')(dbApi.connection);
 	
 	// Configure the socket listener for client connections
 	//
