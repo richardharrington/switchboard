@@ -38,7 +38,7 @@ module.exports = function(server) {
 		})
 		.catch(function(err) {
 			console.log(err);
-		});
+		})
 		.finally(res.end);
 	});
 };
