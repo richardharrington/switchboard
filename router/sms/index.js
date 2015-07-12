@@ -25,6 +25,7 @@ module.exports = function(server) {
 		var dat = req.params;
 
 		var meta = {
+			body		: dat.Body,
 			fromState	: dat.FromState,
 			fromCountry	: dat.FromCountry,
 			sid			: dat.MessageSid

@@ -11,9 +11,11 @@ module.exports = {
 	addToNumberHistory : function(number, meta) {
 	
 	console.log("ADDING TO HISTORY:", arguments);
-	
+		
 		return new Promise(function(resolve, reject) {
-			db.get(number, function(err, val) {
+			db.get(number, {
+				valueEncoding : 'json'
+			}, function(err, val) {
 				if(err) {
 					if(!err.notFound) {
 						return reject(new Error('Unable to add message from ' + number + ' to message history'));
@@ -28,13 +30,18 @@ module.exports = {
 						resolve(resp);
 					});
 				} 
-				db.get(number, {
+				
+				val.push(meta);
+				
+				console.log(val);
+				
+				db.put(number, meta, {
 					valueEncoding : 'json'
-				}, function(err, val) {
+				}, function(err, resp) {
 					if(err) {
 						return reject(err);
 					}
-					resolve(val);
+					resolve(resp);
 				});
 			});
 		});
