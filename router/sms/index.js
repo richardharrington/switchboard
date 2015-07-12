@@ -34,14 +34,19 @@ module.exports = function(server) {
 		.then(function(resp) {
 			console.log('Received message from', dat.From);
 			
-			db.getConnection().get(dat.From, function() {
-				console.log("** gotten **", arguments);
+			db.getConnection().get(dat.From, function(err, val) {
+				if(err) {
+					throw new Error(err);
+				}
+				console.log("typ:", typeof val);
+				console.log('Got value:', val);
 			})
 		})
 		.catch(function(err) {
 			console.log("levelERRR:", err);
 		})
-		.finally(res.end);
+		
+		res.end();
 	});
 };
 
