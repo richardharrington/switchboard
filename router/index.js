@@ -5,11 +5,6 @@ var SServer = require("ws").Server;
 var env = require('../config');
 var npmpack = require('../package.json');
 
-// Get the LevelDB interface, and its readable stream
-//
-var db = require('./Db');
-var dbStream = db.connection.createReadStream();
-
 var sendSMSResponse = require('./sms/sendResponse.js');
 
 var server = restify.createServer({
@@ -28,38 +23,45 @@ server.get('/', function(req, res) {
 //
 server.listen(env.PORT, function() {});
 
-// Configure the sms webhook routing
+// Get the LevelDB interface, and its readable stream
 //
-require('./sms')(server, db);
+require('./Db')(function(dbApi) {
 
-// Configure the socket listener for client connections
-//
-var wss = new SServer(server);
-var clientSocket;
-
-wss.on("connection", function(ws) {
+	// Configure the sms webhook routing
+	//
+	require('./sms')(server, dbApi);
 	
-	ws.send('How can I help you?');
-
-	console.log("websocket connection opened.")
+	var dbStream = dbApi.connection.createReadableStream();
 	
-	sendSMSResponse('+19177674492', 'Hi Sandro')
-	.then(function(resp) {
-		console.log('SENT MESSAGE:', resp);
-	})
-	.catch(console.log.bind(console));
+	// Configure the socket listener for client connections
+	//
+	var wss = new SServer(server);
+	var clientSocket;
 	
-	ws.on("close", function() {
-		console.log("websocket connection closed.");
-	});
+	wss.on("connection", function(ws) {
+		
+		ws.send('How can I help you?');
 	
-	console.log(dbStream);
-	
-	dbStream.on('data', function(data) {
-		console.log("STREAMDATA:", data);
-	});
-	dbStream.on('error', function(err) {
-		console.log("STREAMERROR:", err);
+		console.log("websocket connection opened.")
+		
+		sendSMSResponse('+19177674492', 'Hi Sandro')
+		.then(function(resp) {
+			console.log('SENT MESSAGE:', resp);
+		})
+		.catch(console.log.bind(console));
+		
+		ws.on("close", function() {
+			console.log("websocket connection closed.");
+		});
+		
+		console.log(dbStream);
+		
+		dbStream.on('data', function(data) {
+			console.log("STREAMDATA:", data);
+		});
+		dbStream.on('error', function(err) {
+			console.log("STREAMERROR:", err);
+		});
 	});
 });
 

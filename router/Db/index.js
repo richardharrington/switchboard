@@ -3,54 +3,59 @@
 var Promise = require('bluebird');
 var level = require('level');
 
-var db = level('./messages.db', {
-	valueEncoding : 'json'
-});
-
-var readStream;
-
-module.exports = {
-
-	addToNumberHistory : function(number, meta) {
+module.exports = function(cb) {
+	level('./messages.db', {
+		valueEncoding : 'json'
+	}, function(err, db) {
 	
-	console.log("ADDING TO HISTORY:", arguments);
-		
-		return new Promise(function(resolve, reject) {
-			db.get(number, function(err, val) {
-				if(err) {
-					console.log("err***", err);
-					if(!err.notFound) {
-						return reject(new Error('Unable to add message from ' + number + ' to message history'));
-					}
-					
-					var val = [meta];
-					
-					return db.put(number, val, function(err, resp) {
-						if(err) {
-							return reject(err);
-						}
-						resolve(val);
-					});
-				} 
-				
-				val.push(meta);
-				
-				db.put(number, val, function(err, resp) {
-					if(err) {
-						return reject(err);
-					}
-					resolve(val);
-				});
-			});
-		});
-	},
-	
-	getReadStream : function() {
-		if(!readStream) {
-			readStream = db.createReadStream();
+		if(err) {
+			throw new Error(err);
 		}
-		return readStream;
-	},
 	
-	connection : db
+		cb({
+		
+			addToNumberHistory : function(number, meta) {
+			
+			console.log("ADDING TO HISTORY:", arguments);
+				
+				return new Promise(function(resolve, reject) {
+					db.get(number, function(err, val) {
+						if(err) {
+							console.log("err***", err);
+							if(!err.notFound) {
+								return reject(new Error('Unable to add message from ' + number + ' to message history'));
+							}
+							
+							var val = [meta];
+							
+							return db.put(number, val, function(err, resp) {
+								if(err) {
+									return reject(err);
+								}
+								resolve(val);
+							});
+						} 
+						
+						val.push(meta);
+						
+						db.put(number, val, function(err, resp) {
+							if(err) {
+								return reject(err);
+							}
+							resolve(val);
+						});
+					});
+				});
+			},
+			
+			getReadStream : function() {
+				if(!readStream) {
+					readStream = db.createReadStream();
+				}
+				return readStream;
+			},
+			
+			connection : db
+		});
+	});
 };
