@@ -42,7 +42,7 @@ require('./Db')(function(db, dbApi) {
 	var wss = new SServer(server);
 	var clientSocket;
 	
-	wss.on("connection", function(clientConn) {
+	wss.on("connection", function $wssOnConnection(clientConn) {
 		
 		console.log("websocket connection opened.")
 				
@@ -54,7 +54,7 @@ require('./Db')(function(db, dbApi) {
 			Clients.delete(clientConn);
 		});
 		
-		clientConn.on("message", function(payload) {
+		clientConn.on("message", function $clientConnOnMessage(payload) {
 		
 			console.log("Got message from client server: ", payload);
 			
@@ -115,11 +115,14 @@ require('./Db')(function(db, dbApi) {
 			if(boundClient) {
 			
 console.log("Client with existing number getting messages");
-
-				return boundClient.send(JSON.stringify({
-					type: 'update',
-					list: val
-				}));
+				try {
+					return boundClient.send(JSON.stringify({
+						type: 'update',
+						list: val
+					}));
+				} catch(e) {
+					Clients.delete(boundClient);
+				}
 			}
 			
 			// Try to find an available client
