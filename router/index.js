@@ -119,6 +119,12 @@ require('./Db')(function(db, dbApi) {
 			//
 			var waitingClient = Clients.nextAvailable();
 			if(waitingClient) {
+			
+				// This client is no longer `available`. Assign client a number.
+				// Then send number history.
+				//
+				Clients.set(clientConn, number);
+			
 				waitingClient.send(JSON.stringify({
 					type: 'update',
 					list: val
