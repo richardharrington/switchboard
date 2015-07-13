@@ -55,7 +55,7 @@ require('./Db')(function(db, dbApi) {
 			
 			// Remove client from system
 			//
-			Client.delete(clientConn);
+			Clients.delete(clientConn);
 		});
 		
 		clientConn.on("message", function(payload) {
