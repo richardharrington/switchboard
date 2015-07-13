@@ -92,6 +92,8 @@ require('./Db')(function(db, dbApi) {
 		//
 		dbStream.on('data', function(data) {
 		
+		console.log("STREAMDATA:", data);
+		
 			var number = data.key;
 			var val = data.value;
 			var type = data.type; // typically `put`
