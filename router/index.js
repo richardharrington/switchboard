@@ -146,7 +146,10 @@ console.log("Client assigned a number");
 		
 		// Say something nice
 		//
-		clientConn.send('How can I help you?');
+		clientConn.send(JSON.stringify({
+			type: 'alert',
+			text: 'How can I help you?'
+		});
 	});
 });
 
