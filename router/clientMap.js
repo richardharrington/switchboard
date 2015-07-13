@@ -32,7 +32,11 @@ module.exports = {
 		}	
 	},
 	
-	set : function(sock, status) {
+	set: function(sock, status) {
 		clients.set(sock, status);
+	},
+	
+	delete: function(sock) {
+		clients.delete(sock);
 	}
 };

@@ -1,7 +1,7 @@
 {
   "name": "switchboard",
   "version": "1.0.0",
-  "description": "Master dispatcher for custserv system",
+  "description": "Master dispatcher for thankyou system",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

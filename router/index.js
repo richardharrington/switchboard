@@ -52,6 +52,10 @@ require('./Db')(function(db, dbApi) {
 		
 		clientConn.on("close", function() {
 			console.log("websocket connection closed.");
+			
+			// Remove client from system
+			//
+			Client.delete(clientConn);
 		});
 		
 		clientConn.on("message", function(payload) {
@@ -109,6 +113,9 @@ require('./Db')(function(db, dbApi) {
 			// Send the current history to this client
 			//
 			if(boundClient) {
+			
+console.log("Client with existing number getting messages");
+
 				return boundClient.send(JSON.stringify({
 					type: 'update',
 					list: val
@@ -119,7 +126,9 @@ require('./Db')(function(db, dbApi) {
 			//
 			var waitingClient = Clients.nextAvailable();
 			if(waitingClient) {
-			
+
+console.log("Client assigned a number");
+
 				// This client is no longer `available`. Assign client a number.
 				// Then send number history.
 				//
@@ -135,7 +144,8 @@ require('./Db')(function(db, dbApi) {
 			console.log("STREAMERROR:", err);
 		});
 		
-		
+		// Say something nice
+		//
 		clientConn.send('How can I help you?');
 	});
 });
