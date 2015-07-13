@@ -76,7 +76,7 @@ require('./Db')(function(db, dbApi) {
 			// This client is no longer `available`. Assign client a number.
 			// Then send number history.
 			//
-			Clients.set(clientConn, number);
+			Clients.set(waitingClient, number);
 		
 			waitingClient.send(JSON.stringify({
 				type: 'update',
