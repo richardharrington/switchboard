@@ -8,7 +8,8 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": "0.12.x"
+    "node": "0.12.x",
+    "npm": "2.11.3"
   },
   "author": "spasquali@gmail.com",
   "license": "ISC",
