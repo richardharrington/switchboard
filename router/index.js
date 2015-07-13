@@ -7,6 +7,10 @@ var npmpack = require('../package.json');
 
 var sendSMSResponse = require('./sms/sendResponse.js');
 
+// Add in the client mapping API (who needs work, who is working...)
+//
+var Clients = require('./clientMap.js');
+
 var server = restify.createServer({
 	name: npmpack.name,
 	version: npmpack.version
@@ -38,37 +42,89 @@ require('./Db')(function(db, dbApi) {
 	var wss = new SServer(server);
 	var clientSocket;
 	
-	wss.on("connection", function(ws) {
+	wss.on("connection", function(clientConn) {
 		
 		console.log("websocket connection opened.")
 		
-		ws.on("close", function() {
+		clientConn.on("close", function() {
 			console.log("websocket connection closed.");
 		});
 		
-		ws.on("message", function(msg) {
-			console.log("Got message from client server: ", msg);
+		clientConn.on("message", function(payload) {
+		
+			console.log("Got message from client server: ", payload);
+			
+			try {
+				payload = JSON.parse(payload);
+			} catch(e) {
+				return;
+			}
+			
+			switch(payload.type) {
+				case 'available':
+				
+					// This connection wants new work
+					//
+					Client.set(clientConn, 'available');
+				
+				break;
+				
+				case 'response':
+					var number = Client.get(clientConn);
+					if(!number) {
+						// Why is client sending a response if not bound to 
+						// a number?
+					} else {
+						db.addToNumberHistory(number, { 
+							body: payload.msg
+						});
+					}
+				break;
+				
+				default: 
+					// probably ping
+				break;
+			}
 		});
-
-
+		
 		// We need to be notified when a new message has been
 		// added.
 		//
 		dbStream.on('data', function(data) {
-			console.log("STREAMDATA:", data);
+		
+			var number = data.key;
+			var val = data.value;
+			var type = data.type; // typically `put`
+			
+			// Find any clients that are listening on this number
+			//
+			var boundClient = Clients.withNumber(number);
+			
+			// Send the current history to this client
+			//
+			if(boundClient) {
+				return boundClient.send(JSON.stringify({
+					type: 'update',
+					list: val
+				}));
+			}
+			
+			// Try to find an available client
+			//
+			var waitingClient = Clients.nextAvailable();
+			if(waitingClient) {
+				waitingClient.send(JSON.stringify({
+					type: 'update',
+					list: val
+				}));
+			}
 		});
 		dbStream.on('error', function(err) {
 			console.log("STREAMERROR:", err);
 		});
 		
 		
-		ws.send('How can I help you?');
-		
-		sendSMSResponse('+19177674492', 'Hi Sandro')
-		.then(function(resp) {
-			console.log('SENT MESSAGE:', resp);
-		})
-		.catch(console.log.bind(console));
+		clientConn.send('How can I help you?');
 	});
 });
 

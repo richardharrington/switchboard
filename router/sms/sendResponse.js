@@ -24,6 +24,15 @@ module.exports = function(number, message) {
 
 /*
 
+		
+		sendSMSResponse('+19177674492', 'Hi Sandro')
+		.then(function(resp) {
+			console.log('SENT MESSAGE:', resp);
+		})
+		.catch(console.log.bind(console));
+		
+		
+
 		var twiml = new twilio.TwimlResponse();
 
 		twiml.message("HIYO from TWILLIO");

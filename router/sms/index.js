@@ -9,7 +9,7 @@ module.exports = function(server, db) {
 		
 	var smsUrl = env.URL + '/smswebhook';
 
-	// Set up the webhook. If it doesn't succeed the bound
+	// Set up the webhook on Twilio. If it doesn't succeed the bound
 	// route will never be called.
 	//
 	twilioAPI.incomingPhoneNumbers(env.TWILIO_PHONE_NUMBER_SID).update({
@@ -23,8 +23,7 @@ module.exports = function(server, db) {
 		var meta = {
 			body		: dat.Body,
 			fromState	: dat.FromState,
-			fromCountry	: dat.FromCountry,
-			sid			: dat.MessageSid
+			fromCountry	: dat.FromCountry
 		}
 		
 		db.addToNumberHistory(dat.From, meta)
