@@ -46,6 +46,10 @@ require('./Db')(function(db, dbApi) {
 		
 		console.log("websocket connection opened.")
 		
+		// Create a Client entry
+		//
+		Clients.set(clientConn, 'available');
+		
 		clientConn.on("close", function() {
 			console.log("websocket connection closed.");
 		});
