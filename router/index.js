@@ -149,7 +149,7 @@ console.log("Client assigned a number");
 		clientConn.send(JSON.stringify({
 			type: 'alert',
 			text: 'How can I help you?'
-		});
+		}));
 	});
 });
 
