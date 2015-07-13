@@ -45,11 +45,7 @@ require('./Db')(function(db, dbApi) {
 	wss.on("connection", function(clientConn) {
 		
 		console.log("websocket connection opened.")
-		
-		// Create a Client entry
-		//
-		Clients.set(clientConn, 'available');
-		
+				
 		clientConn.on("close", function() {
 			console.log("websocket connection closed.");
 			
@@ -94,6 +90,10 @@ require('./Db')(function(db, dbApi) {
 				break;
 			}
 		});
+		
+		// Create a Client entry
+		//
+		Clients.set(clientConn, 'available');
 		
 		// We need to be notified when a new message has been
 		// added.
