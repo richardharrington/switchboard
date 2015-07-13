@@ -21,7 +21,7 @@ module.exports = function(server, db) {
 		var dat = req.params;
 
 		var meta = {
-			body		: dat.Body,
+			message		: dat.Body,
 			fromState	: dat.FromState,
 			fromCountry	: dat.FromCountry,
 			phoneNumber	: dat.From

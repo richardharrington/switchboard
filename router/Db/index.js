@@ -21,7 +21,6 @@ module.exports = function(cb) {
 				return new Promise(function(resolve, reject) {
 					db.get(number, function(err, val) {
 						if(err) {
-							console.log("err***", err);
 							if(!err.notFound) {
 								return reject(new Error('Unable to add message from ' + number + ' to message history'));
 							}

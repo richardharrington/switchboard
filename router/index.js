@@ -80,7 +80,7 @@ require('./Db')(function(db, dbApi) {
 						// a number?
 					} else {
 						db.addToNumberHistory(number, { 
-							body: payload.msg
+							message: payload.msg
 						});
 					}
 				break;
@@ -100,8 +100,6 @@ require('./Db')(function(db, dbApi) {
 		//
 		dbStream.on('data', function(data) {
 		
-		console.log("STREAMDATA:", data);
-		
 			var number = data.key;
 			var val = data.value;
 			var type = data.type; // typically `put`
@@ -114,7 +112,8 @@ require('./Db')(function(db, dbApi) {
 			//
 			if(boundClient) {
 			
-console.log("Client with existing number getting messages");
+				console.log("Client with existing number getting messages");
+
 				try {
 					return boundClient.send(JSON.stringify({
 						type: 'update',
@@ -130,7 +129,7 @@ console.log("Client with existing number getting messages");
 			var waitingClient = Clients.nextAvailable();
 			if(waitingClient) {
 
-console.log("Client assigned a number");
+				console.log("Client assigned a number");
 
 				// This client is no longer `available`. Assign client a number.
 				// Then send number history.
