@@ -23,7 +23,8 @@ module.exports = function(server, db) {
 		var meta = {
 			body		: dat.Body,
 			fromState	: dat.FromState,
-			fromCountry	: dat.FromCountry
+			fromCountry	: dat.FromCountry,
+			phoneNumber	: dat.From
 		}
 		
 		db.addToNumberHistory(dat.From, meta)
