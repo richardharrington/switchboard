@@ -7,10 +7,6 @@
 var clients = new Map();
 
 module.exports = {
-
-	exists: function(sock) {
-		return clients.has(sock);
-	},
 	
 	nextAvailable: function(sock) {
 		var iter = clients.entries();
@@ -30,6 +26,10 @@ module.exports = {
 				return arr[0];
 			}
 		}	
+	},
+	
+	get: function(sock) {
+		return clients.get(sock);
 	},
 	
 	set: function(sock, status) {
