@@ -85,7 +85,7 @@ require('./Db')(function(db, dbApi) {
 						// a number?
 					} else {
 
-						db.addToNumberHistory(number, {
+						dbApi.addToNumberHistory(number, {
 							message 	: payload.msg,
 							received	: Date.now(),
 							phoneNumber	: number
