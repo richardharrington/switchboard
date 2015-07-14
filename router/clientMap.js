@@ -2,7 +2,7 @@
 
 // Stores all clients:
 // key: web socket object
-// val: state [one of 'available' | 'assigned']
+// val: state [one of 'available' | '+aphonenumber']
 //
 var clients = new Map();
 

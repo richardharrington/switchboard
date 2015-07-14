@@ -22,7 +22,7 @@ module.exports = function(server, db) {
 
 		var meta = {
 			message		: dat.Body,
-			fromState	: dat.FromState,
+			received	: Date.now(),
 			fromCountry	: dat.FromCountry,
 			phoneNumber	: dat.From
 		}

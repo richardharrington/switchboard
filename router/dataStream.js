@@ -33,7 +33,7 @@ module.exports = function(db, Clients) {
 			}
 		}
 		
-		// Try to find an available client
+		// Try to find an available client to handle this number
 		//
 		var waitingClient = Clients.nextAvailable();
 		if(waitingClient) {
@@ -50,6 +50,12 @@ module.exports = function(db, Clients) {
 				list: val
 			}));
 		}
+		
+		// Getting here means a message cannot be handled at this time.
+		// We need to create a pending queue of some sort here,
+		// that can be picked up as soon as a new client arrives or
+		// otherwise becomes available.
+		//
 	});
 	dbStream.on('error', function(err) {
 		console.log("STREAMERROR:", err);
