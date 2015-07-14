@@ -84,6 +84,8 @@ require('./Db')(function(db, dbApi) {
 						// Why is client sending a response if not bound to 
 						// a number?
 					} else {
+					
+					console.log("GOT PAYLOAD:", payload);
 
 						dbApi.addToNumberHistory(number, {
 							message 	: payload.msg,

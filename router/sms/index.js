@@ -5,7 +5,7 @@ var env = require('../../config');
 var twilio = require('twilio');
 var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 
-module.exports = function(server, db) {
+module.exports = function(server, dbApi) {
 		
 	var smsUrl = env.URL + '/smswebhook';
 
@@ -27,7 +27,7 @@ module.exports = function(server, db) {
 			phoneNumber	: dat.From
 		}
 		
-		db.addToNumberHistory(dat.From, meta)
+		dbApi.addToNumberHistory(dat.From, meta)
 		.then(function(newVal) {
 			console.log('Received message from', dat.From);
 		})
