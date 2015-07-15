@@ -6,37 +6,37 @@ var twilio = require('twilio');
 var twilioAPI = twilio(env.TWILIO_SID, env.TWILIO_AUTH_TOKEN);
 
 module.exports = function(server, dbApi) {
-		
-	var smsUrl = env.URL + '/smswebhook';
 
-	// Set up the webhook on Twilio. If it doesn't succeed the bound
-	// route will never be called.
-	//
-	twilioAPI.incomingPhoneNumbers(env.TWILIO_PHONE_NUMBER_SID).update({
-		smsUrl: smsUrl
-	});	
-	
-	server.post('/smswebhook', function(req, res) {
-	
-		var dat = req.params;
+  var smsUrl = env.URL + '/smswebhook';
 
-		var meta = {
-			message		: dat.Body,
-			received	: Date.now(),
-			fromCountry	: dat.FromCountry,
-			phoneNumber	: dat.From
-		}
-		
-		dbApi.addToNumberHistory(dat.From, meta)
-		.then(function(newVal) {
-			console.log('Received message from', dat.From);
-		})
-		.catch(function(err) {
-			console.log("levelERRR:", err);
-		})
-		
-		res.end();
-	});
+  // Set up the webhook on Twilio. If it doesn't succeed the bound
+  // route will never be called.
+  //
+  twilioAPI.incomingPhoneNumbers(env.TWILIO_PHONE_NUMBER_SID).update({
+    smsUrl: smsUrl
+  });
+
+  server.post('/smswebhook', function(req, res) {
+
+    var dat = req.params;
+
+    var meta = {
+      message   : dat.Body,
+      received  : Date.now(),
+      fromCountry : dat.FromCountry,
+      phoneNumber : dat.From
+    }
+
+    dbApi.addToNumberHistory(dat.From, meta)
+    .then(function(newVal) {
+      console.log('Received message from', dat.From);
+    })
+    .catch(function(err) {
+      console.log("levelERRR:", err);
+    })
+
+    res.end();
+  });
 };
 
 /*
