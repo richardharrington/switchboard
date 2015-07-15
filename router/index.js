@@ -79,21 +79,7 @@ require('./Db')(function(db, dbApi) {
 				break;
 				
 				case 'response':
-					var number = Clients.get(clientConn);
-					if(!number) {
-						// Why is client sending a response if not bound to 
-						// a number?
-					} else {
 
-						dbApi.addToNumberHistory(number, {
-							message 	: payload.message,
-							received	: Date.now(),
-							phoneNumber	: number
-						})
-						.catch(function(err) {
-							console.log("response send error:", err);
-						})						
-					}
 				break;
 				
 				default: 
